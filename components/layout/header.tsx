@@ -8,6 +8,7 @@ import { ButtonSIWELogin } from '@/integrations/siwe/components/button-siwe-logi
 import { ButtonSIWELogout } from '@/integrations/siwe/components/button-siwe-logout'
 import useScroll from '@/lib/hooks/use-scroll'
 
+import { BranchIsWalletConnected } from '../shared/branch-is-wallet-connected'
 import { LinkComponent } from '../shared/link-component'
 import { ResponsiveMobileAndDesktop } from '../shared/responsive-mobile-and-desktop'
 import { ThemeToggle } from '../shared/theme-toggle'
@@ -52,10 +53,13 @@ export function Header(props: Props) {
           <div className="flex flex-1 justify-center lg:px-10"></div>
 
           <div className="flex items-center gap-4">
-            <BranchIsAuthenticated>
-              <ButtonSIWELogout className="tag tag-light" label="Sign-Out" />
-              <ButtonSIWELogin className="tag tag-light" label="Sign-In" />
-            </BranchIsAuthenticated>
+            <BranchIsWalletConnected>
+              <BranchIsAuthenticated>
+                <ButtonSIWELogout className="tag tag-light" label="Sign-Out" />
+                <ButtonSIWELogin className="tag tag-light" label="Web3 Authenticate" />
+              </BranchIsAuthenticated>
+              <></>
+            </BranchIsWalletConnected>
             <ThemeToggle />
           </div>
         </>

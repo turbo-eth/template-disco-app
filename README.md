@@ -1,31 +1,9 @@
 ![image](https://user-images.githubusercontent.com/3408362/230732083-1c98e451-08af-41c2-b522-126370e8c6a5.png)
 
-# ⚡ TurboETH - Web3 App Template
-Web3 App Template built using Next.js, RainbowKit, SIWE, Disco, and more!
+# 🪩 Disco App Template
 
-### Start Kit Examples
-- [Main](https://light.turboeth.xyz) - `main` branch
-- [Heavy](https://turboeth.xyz) - `integrations` branch
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%turbo-eth%template-disco-app&project-name=Places&repository-name=networks&demo-title=Places&env=NEXT_PUBLIC_DISCO_API&envDescription=How%20to%20get%20these%20env%20variables%3A&envLink=https%3A%2F%2Fgithub.com%turbo-eth%template-disco-app%2Fblob%2Fmain%2F.env.example)
 
-Deploy TurboETH `main` directly to [Vercel](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fturbo-eth%2Ftemplate-web3-app&project-name=TurboETH&repository-name=turbo-eth&demo-title=TurboETH&env=APP_ADMINS,NEXT_PUBLIC_ALCHEMY_API_KEY,NEXTAUTH_SECRET,ETHERSCAN_API_KEY,ETHERSCAN_API_KEY_OPTIMISM,ETHERSCAN_API_KEY_ARBITRUM,ETHERSCAN_API_KEY_POLYGON,DATABASE_URL&envDescription=How%20to%20get%20these%20env%20variables%3A&envLink=https%3A%2F%2Fgithub.com%2Fturbo-eth%2Ftemplate-web3-app%2Fblob%2Fmain%2F.env.example)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fhello-world)
-
-### [Documentation](https://docs.turboeth.xyz)
-- Getting Started
-  - [Environment Variables](https://docs.turboeth.xyz/getting-started/environment)
-  - [JSON-RPC](https://docs.turboeth.xyz/getting-started/json-rpc)
-  - [WAGMI CLI](https://docs.turboeth.xyz/getting-started/wagmi-cli)
-  - [UI Components](https://docs.turboeth.xyz/getting-started/design-system)
-  - [Backend Database](https://docs.turboeth.xyz/getting-started/database)
- - Core Integrations
-   - [🌈 RainbowKit](https://docs.turboeth.xyz/integration/rainbowkit)
-   - [🔏 Sign-In With Ethereum](https://docs.turboeth.xyz/integration/sign-in-with-ethereum)
-- Smart Contract Integrations
-  - [ERC20](https://docs.turboeth.xyz/integration/smart-contract-erc20)
-- API Integrations
-  - [Disco](https://docs.turboeth.xyz/integration/disco)
-  - [Etherscan](https://docs.turboeth.xyz/integration/etherscan)
 
 # Getting Started
 
@@ -115,13 +93,3 @@ Common types according to [commitlint-config-conventional (based on the Angular 
 - revert
 - style
 - test
-
-# Acknowledgements
-
-Original template was forked from https://github.com/wslyvh/nexth
-
-Thank you @wslyvh 🙏
-
-<hr/>
-
-Copyright 2023 [Kames Geraghty](https://twitter.com/KamesGeraghty)

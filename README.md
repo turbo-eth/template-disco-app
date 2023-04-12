@@ -1,6 +1,6 @@
 ![image](https://user-images.githubusercontent.com/3408362/231508358-730b6695-ff8c-4290-9a27-6301beec8dec.png)
 
-# 🪩 Networks - Disco App Template
+# Networks 🪩 Disco App Template
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%turbo-eth%template-disco-app&project-name=Places&repository-name=networks&demo-title=Places&env=NEXT_PUBLIC_DISCO_API&envDescription=How%20to%20get%20these%20env%20variables%3A&envLink=https%3A%2F%2Fgithub.com%turbo-eth%template-disco-app%2Fblob%2Fmain%2F.env.example)
 

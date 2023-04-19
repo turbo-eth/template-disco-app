@@ -14,14 +14,22 @@ export function withVerifiableCredentialsAccessControlsRoute(handler: NextApiHan
       const response = await discoClient.get(`/profile/address/${session.siwe.address}`)
 
       if (response.status === 200 && response.data?.creds) {
-        try {
-          response.data?.creds.forEach((cred: any) => {
-            verify712Vc(cred)
-          })
-          Object.defineProperty(req, 'credentials', { enumerable: true, value: response.data?.creds })
-        } catch (e) {
-          console.log(e)
-        }
+        // start verifying all vcs asynchronously
+        const vcPromises = response.data?.creds.map(async (cred: any) => {
+          verify712Vc(cred)
+        })
+
+        // define the empty vc array
+        Object.defineProperty(req, 'credentials', { enumerable: true, value: [] })
+
+        // wait for all promises to resolve, appending each to the vc array
+        vcPromises.forEach(async (p: any) => {
+          try {
+            req.credentials.push(await p)
+          } catch (e) {
+            console.error('unable to verify credential:', e)
+          }
+        })
       }
     }
 

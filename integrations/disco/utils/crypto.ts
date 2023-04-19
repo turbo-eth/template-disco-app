@@ -3,12 +3,26 @@ import { SignTypedDataVersion, recoverTypedSignature } from '@metamask/eth-sig-u
 
 import { ceramicClient as ceramicClient } from './ceramic'
 
-export async function verify712Vc(vc: string) {
+const ACCOUNT_ID_SUFFIX = '@eip155:1'
+
+export class Missing712ProofException extends Error {
+  constructor() {
+    super('Missing EIP712 proof')
+  }
+}
+
+export class Missing712DomainException extends Error {
+  constructor() {
+    super('Missing EIP712 domain')
+  }
+}
+
+export async function verify712Vc(vc: Object) {
   try {
-    const TypedData = JSON.parse(vc)
-    if (!TypedData.proof || !TypedData.proof.proofValue) throw new Error('Missing 712 proof')
+    const TypedData: any = vc
+    if (!TypedData.proof || !TypedData.proof.proofValue) throw new Missing712ProofException()
     if (!TypedData.proof.eip712Domain || !TypedData.proof.eip712Domain.messageSchema || !TypedData.proof.eip712Domain.domain)
-      throw new Error('Missing 712 domain')
+      throw new Missing712DomainException()
 
     const { proof, ...signingInput } = TypedData
     const { proofValue, eip712Domain, ...verifyInputProof } = proof
@@ -31,7 +45,7 @@ export async function verify712Vc(vc: string) {
     })
 
     // Get did from address using CAIP 10
-    const { did } = await Caip10Link.fromAccount(ceramicClient, recovered + (process.env.ACCOUNT_ID_SUFFIX ?? ''))
+    const { did } = await Caip10Link.fromAccount(ceramicClient, recovered + ACCOUNT_ID_SUFFIX)
 
     if (did === signingInput.issuer.id) {
       return TypedData
@@ -39,7 +53,7 @@ export async function verify712Vc(vc: string) {
     // @ts-ignore
     throw new SignatureMismatchException(did, signingInput.issuer.id)
   } catch (e: any) {
-    console.log(e)
+    console.error(e)
     throw e
   }
 }

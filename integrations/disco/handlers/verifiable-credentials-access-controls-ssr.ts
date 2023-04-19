@@ -15,11 +15,14 @@ export function withVerifiableCredentialsAccessControlsSsr<P extends { [key: str
       const response = await discoClient.get(`/profile/address/${session.siwe.address}`)
 
       if (response.status === 200 && response.data?.creds) {
-        response.data?.creds.forEach((cred: any) => {
-          verify712Vc(cred)
-        })
-
-        Object.defineProperty(context.req, 'credentials', { enumerable: true, value: response.data?.creds })
+        try {
+          response.data?.creds.forEach((cred: any) => {
+            verify712Vc(cred)
+          })
+          Object.defineProperty(context.req, 'credentials', { enumerable: true, value: response.data?.creds })
+        } catch (e) {
+          console.log(e)
+        }
       }
     }
 

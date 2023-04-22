@@ -6,6 +6,8 @@ import { verify712Vc } from '@/integrations/disco/utils/crypto'
 import { withSessionRoute } from '@/lib/server'
 import { SERVER_SESSION_SETTINGS } from '@/lib/session'
 
+import { Credential } from '../types'
+
 export function withVerifiableCredentialsAccessControlsRoute(handler: NextApiHandler) {
   return withSessionRoute(async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getIronSession(req, res, SERVER_SESSION_SETTINGS)
@@ -19,7 +21,7 @@ export function withVerifiableCredentialsAccessControlsRoute(handler: NextApiHan
 
         // verify each vc and add it to the array
         await Promise.all(
-          response.data?.creds.map(async (cred: any) => {
+          response.data?.creds.map(async (cred: Credential) => {
             const credential = await verify712Vc(cred)
             if (credential) {
               req.credentials.push(credential)

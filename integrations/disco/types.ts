@@ -2,6 +2,7 @@ export type CredentialType = string
 
 interface CredentialProof {
   type?: string
+  jwt?: string
   created?: string
   proofValue?: string
   eip712Domain?: Record<string, unknown>

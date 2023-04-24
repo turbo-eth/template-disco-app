@@ -4,7 +4,7 @@ import type { RequestCookies } from 'next/dist/server/web/spec-extension/cookies
 
 import { discoClient } from '@/integrations/disco/disco-client'
 import { Credential } from '@/integrations/disco/types'
-import { verify712Vc } from '@/integrations/disco/utils/crypto'
+import { verifyEIP712VerifiableCredentialV2 } from '@/integrations/disco/utils/crypto'
 import { cookieName, password } from '@/lib/session'
 
 /**
@@ -27,8 +27,8 @@ export async function appGetCredentialsFromCookie(cookies: ReadonlyRequestCookie
     if (response.status === 200 && response.data?.creds) {
       // verify each vc and add it to the array
       await Promise.all(
-        response.data?.creds.map(async (cred: Credential[]) => {
-          const credential = await verify712Vc(cred)
+        response.data?.creds.map(async (cred: Credential) => {
+          const credential = await verifyEIP712VerifiableCredentialV2(cred)
           if (credential) {
             credentials.push(credential)
           }

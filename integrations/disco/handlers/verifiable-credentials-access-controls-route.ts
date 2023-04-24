@@ -13,22 +13,30 @@ export function withVerifiableCredentialsAccessControlsRoute(handler: NextApiHan
     const session = await getIronSession(req, res, SERVER_SESSION_SETTINGS)
 
     if (session?.siwe?.address) {
-      const response = await discoClient.get(`/profile/address/${session.siwe.address}`)
+      await discoClient
+        .get(`/profile/address/${session.siwe.address}`)
+        .then(async (response) => {
+          if (response.status === 200 && response.data?.creds) {
+            // define the empty vc array
+            Object.defineProperty(req, 'credentials', { enumerable: true, value: [] })
 
-      if (response.status === 200 && response.data?.creds) {
-        // define the empty vc array
-        Object.defineProperty(req, 'credentials', { enumerable: true, value: [] })
-
-        // verify each vc and add it to the array
-        await Promise.all(
-          response.data?.creds.map(async (cred: Credential) => {
-            const credential = await verify712Vc(cred)
-            if (credential) {
-              req.credentials.push(credential)
-            }
-          })
-        )
-      }
+            // verify each vc and add it to the array
+            await Promise.all(
+              response.data?.creds.map(async (cred: Credential) => {
+                const credential = await verify712Vc(cred)
+                if (credential) {
+                  req.credentials.push(credential)
+                }
+              })
+            )
+          }
+        })
+        .catch((e) => {
+          // 404 means no credentials found for user
+          if (e.response?.status !== 404) {
+            console.error(e)
+          }
+        })
     }
 
     return handler(req, res)

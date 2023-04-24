@@ -22,19 +22,27 @@ export async function appGetCredentialsFromCookie(cookies: ReadonlyRequestCookie
   const credentials: Credential[] = []
 
   if (session?.siwe?.address) {
-    const response = await discoClient.get(`/profile/address/${session.siwe.address}`)
-
-    if (response.status === 200 && response.data?.creds) {
-      // verify each vc and add it to the array
-      await Promise.all(
-        response.data?.creds.map(async (cred: Credential) => {
-          const credential = await verifyEIP712VerifiableCredentialV2(cred)
-          if (credential) {
-            credentials.push(credential)
-          }
-        })
-      )
-    }
+    await discoClient
+      .get(`/profile/address/${session.siwe.address}`)
+      .then(async (response) => {
+        if (response.status === 200 && response.data?.creds) {
+          // verify each vc and add it to the array
+          await Promise.all(
+            response.data?.creds.map(async (cred: Credential) => {
+              const credential = await verifyEIP712VerifiableCredentialV2(cred)
+              if (credential) {
+                credentials.push(credential)
+              }
+            })
+          )
+        }
+      })
+      .catch((e) => {
+        // 404 means no credentials found for user
+        if (e.response?.status !== 404) {
+          console.error(e)
+        }
+      })
   }
 
   return credentials

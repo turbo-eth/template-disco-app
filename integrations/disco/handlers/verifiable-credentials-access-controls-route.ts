@@ -2,41 +2,36 @@ import { getIronSession } from 'iron-session'
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
 import { discoClient } from '@/integrations/disco/disco-client'
-import { verify712Vc } from '@/integrations/disco/utils/crypto'
+import { verifyEIP712VerifiableCredentialV2 } from '@/integrations/disco/utils/crypto'
 import { withSessionRoute } from '@/lib/server'
 import { SERVER_SESSION_SETTINGS } from '@/lib/session'
 
-import { Credential } from '../types'
-
-export function withVerifiableCredentialsAccessControlsRoute(handler: NextApiHandler) {
+/**
+ * Can be called in page/layout server component to get Disco credentials
+ * @param handler - Next.js request handler
+ * @param credentialName - Optional credential name to search for (must be exact)
+ */
+export function withVerifiableCredentialsAccessControlsRoute(handler: NextApiHandler, credentialName?: string): NextApiHandler {
   return withSessionRoute(async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getIronSession(req, res, SERVER_SESSION_SETTINGS)
 
-    if (session?.siwe?.address) {
-      await discoClient
-        .get(`/profile/address/${session.siwe.address}`)
-        .then(async (response) => {
-          if (response.status === 200 && response.data?.creds) {
-            // define the empty vc array
-            Object.defineProperty(req, 'credentials', { enumerable: true, value: [] })
+    if (!session?.siwe?.address) return handler(req, res)
 
-            // verify each vc and add it to the array
-            await Promise.all(
-              response.data?.creds.map(async (cred: Credential) => {
-                const credential = await verify712Vc(cred)
-                if (credential) {
-                  req.credentials.push(credential)
-                }
-              })
-            )
-          }
-        })
-        .catch((e) => {
-          // 404 means no credentials found for user
-          if (e.response?.status !== 404) {
-            console.error(e)
-          }
-        })
+    try {
+      const response = await discoClient.get(`/profile/address/${session.siwe.address}`)
+
+      if (response.status !== 200 || !response.data?.creds) return handler(req, res)
+
+      const creds = response.data.creds
+      const verifiedCredentials = await Promise.all(creds.map(verifyEIP712VerifiableCredentialV2))
+
+      req.credentials = credentialName
+        ? verifiedCredentials.filter((cred) => cred?.credentialSubject?.id === credentialName)
+        : verifiedCredentials.filter(Boolean)
+    } catch (e: any) {
+      if (e.response?.status !== 404) {
+        console.error(e)
+      }
     }
 
     return handler(req, res)

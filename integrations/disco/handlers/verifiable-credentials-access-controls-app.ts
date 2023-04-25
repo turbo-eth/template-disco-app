@@ -9,41 +9,33 @@ import { cookieName, password } from '@/lib/session'
 
 /**
  * Can be called in page/layout server component to get Disco credentials
+ * @param cookies - Next.js request cookies
+ * @param credentialName - Optional credential name to search for (must be exact)
  */
-export async function appGetCredentialsFromCookie(cookies: ReadonlyRequestCookies | RequestCookies): Promise<Credential[] | null> {
+export async function withVerifiableCredentialsAccessControlsApp(
+  cookies: ReadonlyRequestCookies | RequestCookies,
+  credentialName?: string
+): Promise<Credential[] | null> {
   const found = cookies.get(cookieName)
-
   if (!found) return null
 
-  const session: IronSession = await unsealData(found.value, {
-    password,
-  })
+  const session: IronSession = await unsealData(found.value, { password })
 
-  const credentials: Credential[] = []
+  if (!session?.siwe?.address) return []
 
-  if (session?.siwe?.address) {
-    await discoClient
-      .get(`/profile/address/${session.siwe.address}`)
-      .then(async (response) => {
-        if (response.status === 200 && response.data?.creds) {
-          // verify each vc and add it to the array
-          await Promise.all(
-            response.data?.creds.map(async (cred: Credential) => {
-              const credential = await verifyEIP712VerifiableCredentialV2(cred)
-              if (credential) {
-                credentials.push(credential)
-              }
-            })
-          )
-        }
-      })
-      .catch((e) => {
-        // 404 means no credentials found for user
-        if (e.response?.status !== 404) {
-          console.error(e)
-        }
-      })
+  try {
+    const response = await discoClient.get(`/profile/address/${session.siwe.address}`)
+
+    if (response.status !== 200 || !response.data?.creds) return []
+
+    const creds = response.data.creds
+    const verifiedCredentials = await Promise.all(creds.map(verifyEIP712VerifiableCredentialV2))
+
+    return credentialName ? verifiedCredentials.filter((cred) => cred?.credentialSubject?.id === credentialName) : verifiedCredentials.filter(Boolean)
+  } catch (e: any) {
+    if (e.response?.status !== 404) {
+      console.error(e)
+    }
+    return []
   }
-
-  return credentials
 }

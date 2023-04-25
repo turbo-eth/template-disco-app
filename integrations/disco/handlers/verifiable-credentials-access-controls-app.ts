@@ -14,9 +14,9 @@ import { cookieName, password } from '@/lib/session'
 export async function withVerifiableCredentialsAccessControlsApp(
   cookies: ReadonlyRequestCookies | RequestCookies,
   credentialName?: string
-): Promise<Credential[] | null> {
+): Promise<Credential[]> {
   const found = cookies.get(cookieName)
-  if (!found) return null
+  if (!found) return []
 
   const session: IronSession = await unsealData(found.value, { password })
   return getVerifiedCredentials(session, credentialName)

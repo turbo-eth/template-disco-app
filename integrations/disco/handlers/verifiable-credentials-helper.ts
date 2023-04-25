@@ -15,7 +15,7 @@ export async function getVerifiedCredentials(session: IronSession, credentialNam
     const creds = response.data.creds
     const verifiedCredentials = await Promise.all(creds.map(verifyEIP712VerifiableCredentialV2))
 
-    return credentialName ? verifiedCredentials.filter((cred) => cred?.credentialSubject?.id === credentialName) : verifiedCredentials.filter(Boolean)
+    return credentialName ? verifiedCredentials.filter((cred) => cred.type?.includes('OfficialDisconautCredential')) : verifiedCredentials
   } catch (e: any) {
     if (e.response?.status !== 404) {
       console.error(e)

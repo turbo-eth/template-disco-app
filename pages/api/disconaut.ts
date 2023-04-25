@@ -7,7 +7,7 @@ export type Response = {
   error?: string
 }
 
-export default withVerifiableCredentialsAccessControlsRoute(userRoute)
+export default withVerifiableCredentialsAccessControlsRoute(userRoute, 'OfficialDisconautCredential')
 
 async function userRoute(req: NextApiRequest, res: NextApiResponse<Response>) {
   if (req.session.siwe) {

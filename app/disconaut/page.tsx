@@ -5,7 +5,7 @@ import { withVerifiableCredentialsAccessControlsApp } from '@/integrations/disco
 export default async function Disconaut() {
   const credentials = await withVerifiableCredentialsAccessControlsApp(cookies(), 'OfficialDisconautCredential')
 
-  if (!credentials) {
+  if (!credentials.length) {
     return <p>Only Disconauts can view this page 🕺🪩</p>
   }
 

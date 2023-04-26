@@ -9,11 +9,11 @@ export async function getVerifiedCredentials(session: IronSession, credentialNam
 
   try {
     const response = await discoClient.get(`/profile/address/${session.siwe.address}`)
-
     if (response.status !== 200 || !response.data?.creds) return []
 
     const creds = response.data.creds
-    const verifiedCredentials = await Promise.all(creds.map(verifyEIP712VerifiableCredentialV2))
+    const credentialsFiltered = response.data.creds.filter((cred: any) => cred.type?.includes(credentialName))
+    const verifiedCredentials = await Promise.all(credentialsFiltered.map(verifyEIP712VerifiableCredentialV2))
 
     return credentialName ? verifiedCredentials.filter((cred) => cred.type?.includes('OfficialDisconautCredential')) : verifiedCredentials
   } catch (e: any) {

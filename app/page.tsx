@@ -28,7 +28,7 @@ export default function Home() {
               <>
                 <div className="text-center">
                   <h3 className="mb-4 text-6xl">🪩</h3>
-                  <ButtonSIWELogin className="btn btn-emerald" label="Web3 Sign-In" />
+                  <ButtonSIWELogin className="btn btn-emerald" />
                   <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-200">
                     Accessing the Disco API requires <br />
                     authenticating with an Ethereum Account.

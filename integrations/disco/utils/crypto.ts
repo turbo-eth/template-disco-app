@@ -22,6 +22,12 @@ export class Missing712DomainException extends Error {
   }
 }
 
+export class SignatureMismatchException extends Error {
+  constructor(did: string, issuer: string) {
+    super(`Signature mismatch: ${did} !== ${issuer}`)
+  }
+}
+
 export async function retrieveDidDocument(did: string) {
   const threeidresolver = getResolver(ceramicClient)
   const resolver = new Resolver(threeidresolver)

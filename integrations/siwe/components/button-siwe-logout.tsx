@@ -3,6 +3,7 @@
 import * as React from 'react'
 
 import classNames from 'clsx'
+import { useRouter } from 'next/navigation'
 
 import { useUser } from '@/lib/hooks/app/use-user'
 
@@ -16,9 +17,11 @@ interface ButtonSIWELogoutProps {
 
 export const ButtonSIWELogout = ({ className, label = 'Logout', children }: ButtonSIWELogoutProps) => {
   const { mutateUser } = useUser()
+  const router = useRouter()
   const handleLogout = async () => {
     await siweLogout()
     mutateUser()
+    router.refresh()
   }
 
   const classes = classNames('ButtonSIWELogout', className)

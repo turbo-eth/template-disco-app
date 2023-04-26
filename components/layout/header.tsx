@@ -55,11 +55,14 @@ export function Header(props: Props) {
           <div className="flex items-center gap-4">
             <BranchIsWalletConnected>
               <BranchIsAuthenticated>
-                <ButtonSIWELogout className="tag tag-light" label="Sign-Out" />
-                <ButtonSIWELogin className="tag tag-light" label="Web3 Authenticate" />
+                <ButtonSIWELogout label="Sign-Out" />
+                <ButtonSIWELogin />
               </BranchIsAuthenticated>
               <></>
             </BranchIsWalletConnected>
+            <LinkComponent className="btn btn-green btn-pill btn-sm flex items-center" href="/disconaut">
+              Disco Dance Party
+            </LinkComponent>
             <ThemeToggle />
           </div>
         </>

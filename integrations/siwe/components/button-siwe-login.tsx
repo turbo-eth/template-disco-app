@@ -3,6 +3,7 @@
 import * as React from 'react'
 
 import classNames from 'clsx'
+import { useRouter } from 'next/navigation'
 import { useAccount, useNetwork, useSignMessage } from 'wagmi'
 
 import { useUser } from '@/lib/hooks/app/use-user'
@@ -21,11 +22,13 @@ export const ButtonSIWELogin = ({ className, label = 'Sign-In With Ethereum', di
   const { isLoading, signMessageAsync } = useSignMessage()
   const { address } = useAccount()
   const { chain } = useNetwork()
+  const router = useRouter()
 
   const handleCreateMessage = async () => {
     try {
       await siweLogin({ address, chainId: chain?.id, signMessageAsync })
       mutateUser()
+      router.refresh()
     } catch (error) {
       console.error(error)
     }

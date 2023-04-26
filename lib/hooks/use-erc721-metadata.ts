@@ -35,7 +35,6 @@ export function useERC721Metadata({ address, tokenId }: { address: `0x${string}`
           setTokenData(await data.json())
         } else {
           const data = await fetch(txRead?.data as unknown as URL)
-          console.log(await data, 'data')
           setTokenData(await data.json())
         }
       }

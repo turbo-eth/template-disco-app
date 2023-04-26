@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@ceramicnetwork/3id-did-resolver':
+    specifier: ^2.17.0
+    version: 2.17.0(encoding@0.1.13)
   '@ceramicnetwork/http-client':
     specifier: ^2.21.0
     version: 2.21.0(encoding@0.1.13)
@@ -139,6 +142,12 @@ dependencies:
   clsx:
     specifier: ^1.2.1
     version: 1.2.1
+  did-jwt:
+    specifier: ^7.0.0
+    version: 7.0.0
+  did-resolver:
+    specifier: ^4.1.0
+    version: 4.1.0
   encoding:
     specifier: ^0.1.13
     version: 0.1.13
@@ -2671,6 +2680,20 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
 
+  /@ceramicnetwork/3id-did-resolver@2.17.0(encoding@0.1.13):
+    resolution: {integrity: sha512-aq7XKd/S25sl7xEy8o4Pi3X0a2xCpyKd+uqfU8G6jr+6n7Bz0JdVGG3wSf4aEgqB9IobHloC7LI1rleeb3UKMA==}
+    dependencies:
+      '@ceramicnetwork/common': 2.24.0(encoding@0.1.13)
+      '@ceramicnetwork/stream-tile': 2.20.0(encoding@0.1.13)
+      '@ceramicnetwork/streamid': 2.14.0
+      cross-fetch: 3.1.5(encoding@0.1.13)
+      lru_map: 0.4.1
+      multiformats: 11.0.2
+      uint8arrays: 4.0.3
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@ceramicnetwork/common@2.24.0(encoding@0.1.13):
     resolution: {integrity: sha512-Q3GBlJd5XrSDCP/6KJy2sz+5MfAVhMrEDoW9SIaxG19xPC+QGeMRouNbZf+qfe3tGQintaRn3FhoqSAtjFxE1g==}
     dependencies:
@@ -3887,6 +3910,12 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /@noble/curves@1.0.0:
+    resolution: {integrity: sha512-2upgEu0iLiDVDZkNLeFV2+ht0BAVgQnEmCk6JsOch9Rp8xfkMCbvbAZlA2pBHQc73dbl+vFOXfqkf4uemdn0bw==}
+    dependencies:
+      '@noble/hashes': 1.3.0
+    dev: false
 
   /@noble/ed25519@1.7.3:
     resolution: {integrity: sha512-iR8GBkDt0Q3GyaVcIu7mSsVIqnFbkbRzGLWlvhwunacoLwt4J3swfKhfaM6rN6WY+TBGoYT1GtT1mIh2/jGbRQ==}
@@ -8584,6 +8613,19 @@ packages:
       uint8arrays: 3.1.0
     dev: false
 
+  /did-jwt@7.0.0:
+    resolution: {integrity: sha512-iRA2cUfhL93gtDosez8qCRaa1Zd/8rTiutS3TdlAxSGMN6vGXP7kO6FPXvzM+rapfKBUQCAg1tOHTb70fr7gEQ==}
+    dependencies:
+      '@noble/curves': 1.0.0
+      '@noble/hashes': 1.3.0
+      '@stablelib/xchacha20poly1305': 1.0.1
+      bech32: 2.0.0
+      canonicalize: 2.0.0
+      did-resolver: 4.1.0
+      multiformats: 9.9.0
+      uint8arrays: 3.1.0
+    dev: false
+
   /did-resolver@4.1.0:
     resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
     dev: false
@@ -11644,6 +11686,10 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /lru_map@0.4.1:
+    resolution: {integrity: sha512-I+lBvqMMFfqaV8CJCISjI3wbjmwVu/VyOoU7+qtu9d7ioW5klMgsTTiUOUp+DJvfTTzKXoPbyC6YfgkNcyPSOg==}
+    dev: false
 
   /lucide-react@0.105.0-alpha.4(react@18.2.0):
     resolution: {integrity: sha512-QclWOzKYj7sDW33jTQK4enmxL1LmI2SHFqEEP56EWhvs4mmlbbFe6ALYcdcdGysNISNovEbH5WBHg8tN5DLn0w==}

@@ -1,1 +1,1 @@
-declare module '@turbo-eth/erc721-wagmi';
+declare module '@turbo-eth/erc721-wagmi'

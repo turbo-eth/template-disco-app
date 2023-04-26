@@ -8,7 +8,7 @@
     "export": "next export",
     "start": "next start",
     "format": "next lint --fix",
-    "prettier": "prettier './src' --write"
+    "prettier": "prettier --write ."
   },
   "lint-staged": {
     "./src": [
@@ -22,6 +22,7 @@
   },
   "packageManager": "pnpm@7.1.8",
   "dependencies": {
+    "@ceramicnetwork/3id-did-resolver": "^2.17.0",
     "@ceramicnetwork/http-client": "^2.21.0",
     "@ceramicnetwork/stream-caip10-link": "^2.19.0",
     "@metamask/eth-sig-util": "^5.0.2",
@@ -68,6 +69,8 @@
     "class-variance-authority": "^0.4.0",
     "classnames": "^2.3.2",
     "clsx": "^1.2.1",
+    "did-jwt": "^7.0.0",
+    "did-resolver": "^4.1.0",
     "encoding": "^0.1.13",
     "ethers": "5.7.2",
     "focus-trap-react": "^10.0.2",

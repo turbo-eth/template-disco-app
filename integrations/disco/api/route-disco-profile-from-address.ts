@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { discoGetProfileFromAddress } from '@/integrations/disco/actions/get-profile-from-address'
 import { withSessionRoute } from '@/lib/server'
 
-const routeDiscoProfileFromAddress = withSessionRoute(async function handler(req: NextApiRequest, res: NextApiResponse) {
+export const routeDiscoProfileFromAddress = withSessionRoute(async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
       const address = req.session.siwe?.address
@@ -22,5 +22,3 @@ const routeDiscoProfileFromAddress = withSessionRoute(async function handler(req
   res.setHeader('Allow', ['GET'])
   return res.status(405).end(`Method ${req.method} Not Allowed`)
 })
-
-export default routeDiscoProfileFromAddress
